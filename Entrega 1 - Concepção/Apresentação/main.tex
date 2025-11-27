@@ -7,6 +7,9 @@
 % Theme choice:
 \usetheme{Berlin}
 
+\usepackage[backend=biber, style=authoryear, bibstyle=numeric, sorting=none]{biblatex}
+\addbibresource{referencias.bib}
+
 \title{Modelagem Geoespacial da Mobilidade de Ouro Preto Usando o Sistema
 Hexagonal H3}
 \author{Bernardo Sant' Anna Costa}
@@ -28,7 +31,7 @@ Hexagonal H3}
 \begin{itemize}
     \item \textbf{Cenário}: Ouro Preto - Topografia acidentada e preservação histórica.
     \item \textbf{Desafio}: Gestão da mobilidade urbana em cidades históricas.
-    \item \textbf{Fatores Críticos}: Turismo, aumento populacional e riscos geológicos.
+    \item \textbf{Fatores Críticos}: Além do planejamento de tráfego, relevo acidentado e preservação histórica.
     \item \textbf{Problema}: A configuração da malha viária impõe gargalos que, quando bloqueados, isolam regiões inteiras.
 \end{itemize}
 \end{frame}
@@ -36,9 +39,9 @@ Hexagonal H3}
 \begin{frame}
 \frametitle{Problema de Pesquisa}
 \begin{itemize}
-    \item Vulnerabilidade a deslizamentos (ex: Morro da Forca, Rua Padre Rolim).
+    \item Vulnerabilidade a deslizamentos como no Morro da Forca, Rua Padre Rolim \autocite{gomes2024caos}.
     \item Risco de interrupção do acesso a serviços essenciais (saúde, educação).
-    \item \textbf{Lacuna}: Abordagens tradicionais (zoneamento ou topologia simples) falham em capturar a granularidade e a heterogeneidade dos dados (risco + uso do solo).
+    \item \textbf{Lacuna}: Abordagens tradicionais (zoneamento ou topologia simples \autocite{gomes2024caos}) falham em capturar a granularidade e a heterogeneidade dos dados (risco + uso do solo).
 \end{itemize}
 \end{frame}
 
@@ -52,7 +55,7 @@ Hexagonal H3}
         \item \textbf{Equidistância}: Vizinhos têm a mesma distância do centro (superior a quadrados/triângulos para análise de vizinhança).
         \item \textbf{Modelagem de Fluxo}: Ideal para simular movimento e propagação em redes.
     \end{itemize}
-    \item \textbf{Granularidade}: Resoluções finas (9, 10, 11) permitem representar trechos de rua e pontos de risco com precisão.
+    \item \textbf{Granularidade}: Resoluções finas (9, 10, 11) permitem representar trechos de rua e pontos de risco com precisão **buscar embasamento na literatura para a escolha da resolução.
 \end{itemize}
 \end{frame}
 
@@ -75,8 +78,8 @@ Desenvolver e executar uma simulação baseada no sistema hexagonal H3 para mode
 \section{Revisão Bibliográfica}
 \begin{frame}
 \frametitle{Conceitos Básicos: Resiliência}
-\begin{block}{Definição Robusta}
-A resiliência de redes de transporte é a capacidade do sistema de \textbf{manter sua funcionalidade} e níveis de serviço, ou recuperar-se eficientemente, mesmo diante de falhas estruturais, desastres naturais ou perturbações severas.
+\begin{block}{Definição}
+A resiliência de redes de transporte é a capacidade do sistema de \textbf{manter sua funcionalidade} e níveis de serviço, ou recuperar-se eficientemente, mesmo diante de falhas estruturais, desastres naturais ou perturbações e bloqueios \autocite{azolin2019transporte}.
 \end{block}
 \end{frame}
 
@@ -85,7 +88,7 @@ A resiliência de redes de transporte é a capacidade do sistema de \textbf{mant
 \begin{itemize}
     \item Estudos sobre resiliência em redes de transporte urbano.
     \item Aplicações de grades hexagonais (H3) em análise espacial.
-    \item Modelagem de riscos geológicos em cidades históricas.
+    \item Modelagem de riscos geológicos.
 \end{itemize}
 \end{frame}
 
@@ -95,8 +98,10 @@ A resiliência de redes de transporte é a capacidade do sistema de \textbf{mant
 A abordagem metodológica estrutura-se nas seguintes etapas:
 \begin{enumerate}
     \item \textbf{Estruturação Territorial}: Discretização do espaço usando células H3.
-    \item \textbf{Integração de Dados Heterogêneos}: Fusão de dados de malha viária, transporte público, altimetria e mapas de risco.
+    \item \textbf{Integração de Dados Heterogêneos}: Fusão de dados de malha viária, transporte público (rotas e pontos de ônibus), altimetria e mapas de risco.
     \item \textbf{Modelagem de Rede}: Criação de grafo direcionado com pesos (tempo/custo).
+    \item \textbf{Definição da regras de Simulação}: 
+    \textbf{Definição das Regras de Simulação}: Estabelecimento de critérios para o reencaminhamento automático de fluxos (auto-reparo da rede) após a interrupção de arestas.
     \item \textbf{Simulação de Cenários}: Remoção dinâmica de células (nós).
     \item \textbf{Análise de Acessibilidade}: Recálculo de rotas e métricas.
 \end{enumerate}
@@ -107,45 +112,48 @@ A abordagem metodológica estrutura-se nas seguintes etapas:
 \begin{itemize}
     \item \textbf{Dados}: Integração da malha de Ouro Preto com pontos de risco geológico.
     \item \textbf{Simulação}: Bloqueio virtual de hexágonos em áreas críticas (ex: deslizamento no Morro da Forca).
-    \item \textbf{Avaliação}: Medir impacto no transporte público e acesso a serviços.
+    \item \textbf{Avaliação}: Medir impacto no transporte público e acesso a serviços. Medir a resiliência da malha viária.
 \end{itemize}
 \end{frame}
 
 \section{Resultados Alcançados}
 \begin{frame}
-\frametitle{Resultados Preliminares}
+\frametitle{Resultados Esperados}
 \begin{itemize}
-    \item Definição da arquitetura da simulação baseada em H3.
-    \item Levantamento e pré-processamento dos dados geoespaciais de Ouro Preto.
-    \item Identificação dos pontos críticos de risco geológico na malha viária.
-    \item Estruturação do modelo de dados para integração das camadas.
+    \item A ferramenta permitirá empoderar a gestão pública para planejar o transporte público com mais eficiência, segurança e resiliência.
+    % \item Definição da arquitetura da simulação baseada em H3.
+    % \item Levantamento e pré-processamento dos dados geoespaciais de Ouro Preto.
+    % \item Identificação dos pontos críticos de risco geológico na malha viária.
+    % \item Estruturação do modelo de dados para integração das camadas.
 \end{itemize}
 \end{frame}
 
 \section{Considerações Finais}
 \begin{frame}
 \frametitle{Conclusão}
-\begin{itemize}
-    \item A abordagem H3 oferece granularidade adequada para o problema.
-    \item A ferramenta permitirá aos gestores públicos antecipar cenários de crise.
-    \item Contribuição para a segurança e eficiência da mobilidade em Ouro Preto.
-\end{itemize}
+% \begin{itemize}
+    % \item A abordagem H3 oferece granularidade adequada para o problema.
+    % \item A ferramenta permitirá aos gestores públicos antecipar cenários de crise.
+    % \item Contribuição para a segurança e eficiência da mobilidade em Ouro Preto.
+% \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{Limitações e Trabalhos Futuros}
 \begin{block}{Limitações}
-\begin{itemize}
-    \item Disponibilidade de dados em tempo real.
-    \item Complexidade computacional da simulação em alta resolução.
-\end{itemize}
+% \begin{itemize}
+    % \item Disponibilidade de dados em tempo real.
+    % \item Complexidade computacional da simulação em alta resolução.
+% \end{itemize}
 \end{block}
 \begin{block}{Trabalhos Futuros}
-\begin{itemize}
-    \item Implementação de interface visual para gestores.
-    \item Expansão para outros tipos de riscos (enchentes, eventos).
-\end{itemize}
+% \begin{itemize}
+    % \item Implementação de interface visual para gestores.
+    % \item Expansão para outros tipos de riscos (enchentes, eventos).
+% \end{itemize}
 \end{block}
 \end{frame}
 
+\newpage
+\printbibliography
 \end{document}
