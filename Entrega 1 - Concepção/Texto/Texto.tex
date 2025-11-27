@@ -1,0 +1,137 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[backend=biber, style=authoryear, bibstyle=numeric, sorting=none]{biblatex}
+\addbibresource{referencias.bib}
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+% \title{Mapeamento de Resiliência e Acessibilidade Dinâmica do Transporte Público em Ouro Preto-MG}
+
+\title{Modelagem Geoespacial da Mobilidade de Ouro Preto usando o Sistema Hexagonal H3}
+
+\author{Bernardo Sant' Anna Costa}
+\date{Novembro 21, 2025} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+
+\section{Introdução}
+% Cenário geral do tema. Mobilidade urbana em cidades históricas e acidentadas.
+A gestão da mobilidade urbana em cidades com topografias acidentadas e preservações históricas apresentam desafios que vão além do planejamento de tráfego, especialmente com o aumento da população e a demanda por transportes sustentáveis e eficientes. No caso a literatura recente aponta que a resiliência das redes de transporte (que é a capacidade da rede de manter a funcionalidade mesmo com falhas ou desastres) é uma questão central para o planejamento urbano \autocite{azolin2019transporte}. 
+
+% O problema específico de Ouro Preto.
+O município de Ouro Preto é um caso onde o turismo, a geografia acidentada e a preservação do patrimônio histórico impõem desafios únicos à mobilidade urbana.
+Conforme apontado por \autocite{gomes2024caos}, a configuração da malha viária impõem a existência de pontos críticos que quando bloquados podem isolar áreas inteiras da cidade. Por exemplo a região do Morro da Forca e da Rua Padre Rolim estão em áreas de alto risco geológico. Eventos recentes de deslizamentos de terra representam riscos à segurança física e impedimento ao acesso a serviços públicos essenciais como saúde e educação.
+
+% O que falta expandir nas abordagens/soluções atuais.
+Mesmo sendo um problema relevante e atual, as abordagens tradicionais de análise espacial muitas vezes não são capazes de capturar a granularidade necessária da mobilidade urbana de Ouro Preto. Modelos baseados em zoneamento de bairros podem generalizar demais os padrões de deslocamento, e uma análise puramente topológica deixa de integrar dados heterogêneos como por exemplo mapas de risco e uso do solo.
+
+% A proposta deste artigo.
+Por isso a análise de dados da mobilidade urbana é uma ferramenta importante para a gestão pública e o planejamento urbano. Permitindo a compreensão dos padrões de deslocamento, encontrar gargalos no sistema de transporte e propor melhorias que o tornem resilientes. Por isso, este trabalho propõe a utilização do sistema de indexação hexagonal H3 \autocite{h3geoHome}. O objetivo é simular cenários de bloqueio na malha viária de Ouro Preto e avaliar o impacto na acessebilidade dos serviços públicos essenciais tal qual o da rede de transporte público. Com essa abordagem de células hexagonais espera-se prover os gestores públicos uma ferramenta com integra dados heterogêneos e granular da mobilidade urbana, permitindo a gestão de riscos e a melhoria da resiliência do sistema de transporte público.
+
+\section{Justificativa}
+
+% A urgência do tema.
+A análise de resiliência e acessebilidade da mobilidade em cidades com topografia complexa e com restrições viárias históricas, como Ouro Preto, exige uma metodologia que vá além das abordagens tradicionais. A escolha de usar o Sistema de indexação Hexagonal H3 \autocite{h3geoHome} é fundamentada com base nas vantagens técnicas que superam as limitações das abordagens tradicionais.
+
+% Justificativa técnica e metodológica.
+O H3 é um sistema de grade global que divide o superfície da Terra em células hexagonais. Com essa base geométrica específica o H3 é superior para a agregação dos dados em comparação com células quadradas ou triangulares tradicionais \autocite{h3geoAggregation}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\textwidth]{Imagens/Vizinhos das diferentes formas geométricas.png}
+    \caption{Distâncias de um triângulo aos seus vizinhos (esquerda), de um quadrado aos seus vizinhos (centro) e de um hexágono aos seus vizinhos (direita).}
+    \label{fig:vizinhanca}
+\end{figure}
+
+A esolha da resolução 9, 10 ou 11 são importantes pois afetarão a granularidade da célula e dos dados que estão representando \autocite{h3geoTablesCell}. Então para indexar os pontos críticos da malha viária de Ouro Pretom, sendo o bloqueio de um hexagono capaz de representar o bloqueio de um trecho específico como o Morro da Forca ou um determinado ponto da Rua Padre Rolim.
+
+% Justificativa prática.
+A necessidade de simulação da perda de acessebilidade se encaixa na capacidade do H3 de modelar o fluxo de movimento \autocite{h3geoFlowModelling}. No caso deste trabalho isso permite que:
+\begin{itemize}
+    \item Seja associado pesos para cada aresta direcionada. Pode ser o tempo da viagem.
+    \item Modelar dinâmicamente. O bloqueio de hexágono com risco geológico pode ser simmulado e ser feito a análise da propagação dos efeitos na cidade de Ouro Preto.
+    \item Recalcular novas rotas na nova configuração da malha viária. Permitindo o planejamento de rotas alternativas em casos de bloqueios.
+\end{itemize}
+
+\section{Objetivo}
+O objetivo deste trabalho é desenvolver e executar uma simulação baseada no sistema de indexação hexagonal H3 para modelar a resiliência da malha viária de Ouro Preto, simulando o impacto de obstruções causadas por riscos geológicos na acessibilidade urbana.
+
+O primeiro passo é estruturar base territorial de Ouro Preto em células hexagonais H3, integrando dados geoespaciais relevantes como a malha viária, pontos de ônibus, as rotas do transporte público, pontos críticos de risco geológico e a localização dos serviços públicos essenciais.
+
+Em seguida, será implementada uma simulação que permita o bloqueio dinâmico de hexágonos representando áreas de risco, avaliando o impacto na acessibilidade dos serviços públicos e na eficiência do transporte público.
+
+Depois buscar rotas alternativas para mitigar os efeitos dos bloqueios, analisando a resiliência da rede de transporte urbano.
+Com as novas rotas e a nova configuração da malha viária, as simulações serão executadas novamente até que se obtenha uma configuração resiliente. Sugerindo novas rotas para o transporte público e identificando áreas que necessitam de intervenções urbanas para melhorar a resiliência.
+
+
+\section{Revisão Bibliográfica}
+
+\subsection{Conceitos Básicos}
+
+\subsection{Trabalhos Correlatos}
+
+\section{Materiais e Métodos}
+
+\section{Resultados Alcançados}
+
+\section{Considerações Finais}
+
+\subsection{Limitações e Trabalhos Futuros}
+
+\newpage
+\printbibliography
+
+\end{document}
